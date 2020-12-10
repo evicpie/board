@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.html import format_html
+import re
 
 class Board(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE, related_name='user_boards')
@@ -17,6 +19,7 @@ class Board(models.Model):
         ('banned', '안보이게'),
     )
     status = models.CharField(max_length=6, choices=STATUS_CHOICES, default='normal')
+    color_code = models.CharField(max_length=6, default='FF0000')
 
     class Meta:
         ordering = ['-updated']
@@ -26,3 +29,19 @@ class Board(models.Model):
 
     def get_absolute_url(self):
         return reverse('board:detail', args=[str(self.id)])
+
+    def cname(self):
+        print('check:',self.author)
+        if re.match(str(self.author), 'admin'):
+            print('admincheck')
+            return format_html(
+                '<span style="color: #008800;">{}</span>',
+                self.author,
+            )
+        else:
+            print('othercheck')
+            return format_html(
+                '<span style="color: #{};">{}</span>',
+                self.color_code,
+                self.author,
+            )

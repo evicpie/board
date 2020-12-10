@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Board
 
 class BoardAdmin(admin.ModelAdmin):
-    list_display = ['title', 'id', 'author', 'created', 'updated', 'status']
+    list_display = ['title', 'id', 'cname', 'created', 'updated', 'status']
     list_editable = ['status']
     raw_id_fields = ['author']
     list_filter = ['created', 'updated', 'author']
