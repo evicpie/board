@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Board List
+{% endblock %}
+
+{% block content %}
+  <div class="btn-group">
+    <a href="{% url 'board:add' %}" class="btn btn-info">글쓰기</a>
+  </div>
+  <p></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">글쓴이</th>
+        <th scope="col">작성일</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for board in object_list %}
+        <tr>
+          <td>{{ board.id }}</td>
+          <td><a href="{% url 'board:detail' pk=board.id %}">{{ board.title }}</a></td>
+          <td>{{ board.author }}</td>
+          <td>{{ board.created }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block pagination %}
+  {% if is_paginated %}
+    <ul class="pagination justify-content-center pagivation-sm">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'board:list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">이전</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a href="#" class="page-link" tabindex="-1">이전</a>
+        </li>
+      {% endif %}
+
+      {% for object in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == forloop.counter %} disabled{% endif %}">
+          <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+        </li>
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{% url 'board:list' %}?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">다음</a>
+        </li>
+      {% endif %}
+    </ul>
+
+  {% endif %}
+{% endblock %}

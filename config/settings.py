@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'board',
+    'accounts',
+    'six',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +58,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -118,3 +122,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#업로드 파일들을 media 폴더에 몰아 넣기 위한 코드
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#로그인 되었을때 보낼곳
+LOGIN_REDIRECT_URL = '/'
+
+# settings.py
+
+EMAIL_HOST = 'smtp.gmail.com'
+# 메일을 호스트하는 서버
+EMAIL_PORT = '587'
+# gmail과의 통신하는 포트
+EMAIL_HOST_USER = 'pwoqhr@gmail.com'
+# 발신할 이메일
+EMAIL_HOST_PASSWORD = 'KMch2880?!'
+# 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True
+# TLS 보안 방법
+DEFAULT_FROM_EMAIL = 'pwoqhr@gmail.com'
+# 사이트와 관련한 자동응답을 받을 이메일 주소,'webmaster@localhost'

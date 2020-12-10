@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+  {{object.text|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 panel panel-default">
+      <p><img src="{{object.photo.url}}" style="width:35%;"></p>
+      <button type="button" class="btn btn-outline-primary btn-sm">
+        {{object.author.username}}
+      </button>
+      <p>{{object.content|linebreaksbr}}</p>
+
+      <a href="{% url 'board:delete' pk=object.id %}" class="btn-outline-danger btn-sm float-right">삭제하기</a>
+      <a href="{% url 'board:update' pk=object.id %}" class="btn-outline-success btn-sm float-right">수정하기</a>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+{% endblock %}

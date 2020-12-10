@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}그리드 보기{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" style="width:20%"></th>
+        <th scope="col" style="width:20%"></th>
+        <th scope="col" style="width:20%"></th>
+        <th scope="col" style="width:20%"></th>
+        <th scope="col" style="width:20%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {% for board in boards %}
+          <td>
+            <a href="{% url 'board:detail' pk=board.id %}">
+              <p><img src="{{board.photo.url}}" style="width:100%"></p>
+            </a>
+          </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for board in boards %}
+          <td>
+            <a href="{% url 'board:detail' pk=board.id %}">
+              <button type="button" class="btn btn-xs btn-info">상세보기</button>
+            </a>
+          </td>
+        {% endfor %}
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
+{% block pagination %}
+  <ul class="pagination justify-content-center pagivation-sm">
+    {% if boards.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="{% url 'board:grid' %}?page={{ boards.previous_page_number }}" tabindex="-1">이전</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a href="#" class="page-link" tabindex="-1">이전</a>
+      </li>
+    {% endif %}
+
+    {% for object in boards.paginator.page_range %}
+      <li class="page-item {% if boards.number == forloop.counter %} disabled{% endif %}">
+        <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+      </li>
+    {% endfor %}
+
+    {% if boards.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="{% url 'board:grid' %}?page={{ boards.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#">다음</a>
+      </li>
+    {% endif %}
+  </ul>
+
+{% endblock %}
